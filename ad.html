@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advertisement and Job Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group textarea {
+            resize: vertical;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .posts {
+            margin-top: 20px;
+        }
+        .post {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #fff;
+        }
+        .post img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .filter {
+            margin-bottom: 20px;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Advertisement and Job Posts</h1>
+
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select id="type" name="type" required>
+                    <option value="Advertisement">Advertisement</option>
+                    <option value="Job">Job</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="image">Image (optional)</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+            <button type="submit" class="btn">Upload</button>
+        </form>
+
+        <div class="filter">
+            <label for="filterType">Filter by Type:</label>
+            <select id="filterType">
+                <option value="">All</option>
+                <option value="Advertisement">Advertisement</option>
+                <option value="Job">Job</option>
+            </select>
+        </div>
+
+        <div class="posts" id="postsContainer">
+            <!-- Posts will appear here -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            const response = await fetch('upload.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('Post uploaded successfully!');
+                loadPosts();  // Reload the posts
+                this.reset();
+            } else {
+                alert('Failed to upload post.');
+            }
+        });
+
+        document.getElementById('filterType').addEventListener('change', loadPosts);
+
+        async function loadPosts() {
+            const filterType = document.getElementById('filterType').value;
+            const url = 'fetch_posts.php?type=' + filterType;
+
+            const response = await fetch(url);
+            const postsContainer = document.getElementById('postsContainer');
+
+            postsContainer.innerHTML = await response.text(); // Load posts directly from the server
+        }
+
+        // Load posts on page load
+        loadPosts();
+
+        // Function to handle post deletion
+        async function deletePost(postId) {
+            const response = await fetch('delete_post.php?post_id=' + postId, {
+                method: 'GET'
+            });
+
+            if (response.ok) {
+                alert('Post deleted successfully!');
+                loadPosts();  // Reload the posts after deletion
+            } else {
+                alert('Failed to delete post.');
+            }
+        }
+
+        // Global function to confirm and delete post
+        window.confirmDeletePost = function(postId) {
+            if (confirm('Are you sure you want to delete this post?')) {
+                deletePost(postId);
+            }
+        };
+    </script>
+</body>
+</html>

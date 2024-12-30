@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Services</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    .button {
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 18px;
+      color: white;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+      width: 200px;
+      margin: 20px auto;
+      text-decoration: none;
+      text-align: center;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+    .location-info {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+    <a href="tel:8788946196" class="button">Call My Number</a>
+    <a href="sms:8788946196?body=Testing SMS with location" class="button">sms to My Number</a>
+    <button onclick="sendLocation('8788946196')" class="button">Send Location to My Number</button>
+
+  <h1>Emergency Services</h1>
+  
+  <button onclick="callService('100')" class="button">Call Police (100)</button>
+  <button onclick="callService('112')" class="button">Call Emergency (112)</button>
+  <button onclick="callService('101')" class="button">Call Fire (101)</button>
+  <button onclick="callService('102')" class="button">Call Ambulance (102)</button>
+  <button onclick="callService('108')" class="button">Call Disaster Management (108)</button>
+  <button onclick="callService('1091')" class="button">Call Women Helpline (1091)</button>
+
+  
+  
+  <div class="location-info" id="location-info">
+    <p>GPS location will be shared via SMS if allowed.</p>
+    <p class="error" id="error-message"></p>
+  </div>
+
+  <script>
+    // Function to call the service
+    function callService(number) {
+      // Use the 'tel' protocol for direct calling
+      window.location.href = `tel:${number}`;
+    }
+
+    // Function to send an SMS with GPS location to the given number
+    function sendLocation(number) {
+      if (!navigator.geolocation) {
+        document.getElementById('error-message').innerText = "Geolocation is not supported by your browser.";
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const message = `I need urgent help. My location is: https://www.google.com/maps?q=${latitude},${longitude}`;
+          
+          // Encode the message and use the 'sms' protocol for sending an SMS
+          const smsUrl = `sms:${number}?body=${encodeURIComponent(message)}`;
+          
+          // Open the SMS link
+          window.location.href = smsUrl;
+        },
+        (error) => {
+          document.getElementById('error-message').innerText = `Unable to retrieve location: ${error.message}`;
+        }
+      );
+    }
+  </script>
+
+  <button onclick="sendLocation('8788946196')" class="button">Send Location to My Number</button>
+
+</body>
+</html>
+
+  
+  
+  
+  
