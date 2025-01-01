@@ -1,4 +1,4 @@
-<?php
+a<?php
 include 'db.php'; // Include database connection
 session_start(); // Start the session
 
@@ -123,9 +123,72 @@ a{
     text-decoration:none;
 }
 
+
+
+/*popupadd*/
+#ad-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none; /* Hide by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #ad-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 500px;
+            width: 80%;
+            position:relative;
+        }
+        #close-ad {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 20px;
+            font-size: 20px;
+        }
+        #close-ad img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+       
     </style>
 </head>
 <body>
+
+<!-- Ad Popup -->
+
+<div id="ad-popup">
+    <a href="ad.html" style="text-decoration: none; color: black;">
+        <div id="ad-content">
+            <h2>Special Advertisement</h2>
+            <p>Check out our latest deals!</p>
+            
+            <!-- Image inside the ad popup -->
+            <img src="./uploads/6772ddb31266e_retail-shop.jpg" alt="Advertisement" style="width: 100%; height: 70%; object-fit: cover; margin-bottom: 15px;">
+        </div>
+    </a>
+    <button id="close-ad"><img src="./uploads/close.png" alt="Close Ad"></button>
+</div>
+
+
     <header>
         <a href="index.html">
     <h1
@@ -183,6 +246,24 @@ if ($result->num_rows > 0) {
     echo "<p>No requests available.</p>";
 }
 ?>
+
+<script>
+        // Display the ad popup when the page loads
+        window.onload = function() {
+            document.getElementById('ad-popup').style.display = 'flex';
+        }
+
+        // Close the ad when the close button is clicked
+        document.getElementById('close-ad').onclick = function() {
+            document.getElementById('ad-popup').style.display = 'none';
+        }
+
+        // Redirect to the ad page when the "View Ad" button is clicked
+        document.getElementById('view-ad').onclick = function() {
+            window.location.href = 'ad.html'; // Redirect to your ad page
+        }
+    </script>
+
 </div>
     </main>
 </body>
