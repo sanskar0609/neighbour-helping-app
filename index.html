@@ -153,10 +153,16 @@
         padding-left: 10%;
         padding-top: 3vh;
       }
-      a{
+      a:not(#stat1){
         color: #ffffff;
         text-decoration: none;
         font-size: 3vh;
+      }
+      
+      #stat1
+      {
+        text-decoration: none;
+        color: #000000;
       }
     </style>
   </head>
@@ -187,17 +193,19 @@
         </p>
         <button class="btn"><a href="register.html">register</a></button>
 
+        <a href="emergency.html" id="stat1">
         <div class="stats">
             <div class="stat">
-              <h2>192k</h2>
-              <p>Assets under management</p>
+              <h2>Call</h2>
+              <p>emergency call</p>
             </div>
             <div class="stat">
-              <h2>34</h2>
-              <p>Unique delegators</p>
+              <h2>Location</h2>
+              <p>emergency location send</p>
             </div>
           </div>
       </div>
+    </a>
     
       <div class="avatars">
         <div class="avatar">

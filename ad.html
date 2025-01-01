@@ -10,17 +10,25 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            background: linear-gradient(0deg, rgba(58, 232, 252, 0.81) 10%, rgba(174, 241, 223, 0.81) 40%);
+            font-size: 16px;
+            
         }
         .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
+            max-width: 100%;
+            padding: 15px;
+            margin: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: #f9f9f9;
+            background-color: #e2e8e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         h1 {
             text-align: center;
+            font-size: 2rem; /* Scalable font size */
         }
         form {
             margin-bottom: 20px;
@@ -38,9 +46,10 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 1rem;
         }
         .form-group textarea {
-            resize: vertical;
+            resize: none;
         }
         .btn {
             padding: 10px 20px;
@@ -49,6 +58,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 1rem;
         }
         .btn:hover {
             background-color: #0056b3;
@@ -82,46 +92,178 @@
         .delete-btn:hover {
             background-color: #c82333;
         }
+
+        #uploadForm {
+            width: 80%;
+        }
+
+        header {
+            background: linear-gradient(180deg, #f2f2f2 0%, #1adff5 100%);
+            color: white;
+            padding: 10px 20px;
+        }
+
+        nav a {
+            color: #000000;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 2px solid black;
+            padding: 7px;
+            background-color: rgb(34, 201, 209);
+            animation-delay: 1s;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a:hover {
+            background-color: #f8f8f8;
+            transform: scale(1.1);
+        }
+
+        header h1 {
+            text-align: center;
+            color: rgb(30, 34, 38);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+       
+
+        .leftside, .right {
+            flex: 1;
+            padding: 10px;
+            min-width: 200px;
+        }
+        .main{
+            display: flex;
+        }
+        /* Media Queries for Responsiveness */
+        @media screen and (max-width: 768px) {
+            .main {
+                flex-direction: column;
+                 /* Stack left and right sections vertically */
+            }
+           .leftside{
+            display: none;
+           }
+
+            .container {
+                width: 100%; /* Full width on smaller screens */
+            }
+
+            header h1 {
+                font-size: 2rem; /* Make header font size smaller */
+            }
+
+            nav a {
+                font-size: 14px; /* Adjust navigation links for smaller screens */
+            }
+
+            .form-group input, .form-group textarea, .form-group select {
+                font-size: 1rem; /* Ensure form elements are properly sized */
+            }
+
+            .btn {
+                padding: 8px 16px; /* Adjust button size for smaller screens */
+            }
+
+            .delete-btn {
+                padding: 5px 8px; /* Adjust delete button size */
+            }
+
+            .post {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+
+            .filter select {
+                width: 100%; /* Make the filter select take full width */
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Advertisement and Job Posts</h1>
+    <header>
+        <a href="dashboard.php">
+        <h1
+              style="
+                font-size: 48px;
+                font-weight: 700;
+                margin: 0;
+                z-index: 2;
+                position: relative;
+              "
+            >
+            UnityHub
+            </h1></a>
+          
+        <center>
+            <nav>
+                <a href="post-request.php">Post Request</a>
+                <a href="offer-help.php">Offer Help</a>
+                <a href="profile.php">Profile</a>
+                <a href="logout.php">Logout</a>
+            </nav>
+        </center>
+    </header>
 
-        <form id="uploadForm" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" rows="5" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="type">Type</label>
-                <select id="type" name="type" required>
+    <div class="main">
+        <div class="leftside">
+            
+        </div>
+
+        <div class="container">
+            <h1>Advertisement and Job Posts</h1>
+
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select id="type" name="type" required>
+                        <option value="Advertisement">Advertisement</option>
+                        <option value="Job">Job</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image (optional)</label>
+                    <input type="file" id="image" name="image" accept="image/*">
+                </div>
+                <center>
+                <button type="submit" class="btn">Upload</button>
+                </center>
+            </form>
+
+            <div class="filter">
+                <label for="filterType">Filter by Type:</label>
+                <select id="filterType">
+                    <option value="">All</option>
                     <option value="Advertisement">Advertisement</option>
                     <option value="Job">Job</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="image">Image (optional)</label>
-                <input type="file" id="image" name="image" accept="image/*">
-            </div>
-            <button type="submit" class="btn">Upload</button>
-        </form>
 
-        <div class="filter">
-            <label for="filterType">Filter by Type:</label>
-            <select id="filterType">
-                <option value="">All</option>
-                <option value="Advertisement">Advertisement</option>
-                <option value="Job">Job</option>
-            </select>
+            <div class="posts" id="postsContainer">
+                <!-- Posts will appear here -->
+            </div>
         </div>
 
-        <div class="posts" id="postsContainer">
-            <!-- Posts will appear here -->
+        <div class="right">
+            hii
         </div>
     </div>
 

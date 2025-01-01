@@ -224,21 +224,57 @@ if (isset($_SESSION['region'])) {
 
     </main>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        const map = L.map('map').setView([<?php echo $savedLatitude; ?>, <?php echo $savedLongitude; ?>], 13);
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 
+<!-- Load leaflet-search library after Leaflet -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-search/3.0.4/leaflet-search.min.js" defer></script>
+
+<!-- Load Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<!-- Load leaflet-search CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-search/3.0.4/leaflet-search.min.css" />
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize the map and set its view to the saved region or default
+        const savedLat = <?php echo $savedLatitude; ?>;
+        const savedLng = <?php echo $savedLongitude; ?>;
+
+        const map = L.map('map').setView([savedLat, savedLng], 14);
+
+        // Add OpenStreetMap tiles to the map
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        const marker = L.marker([<?php echo $savedLatitude; ?>, <?php echo $savedLongitude; ?>], { draggable: true }).addTo(map);
+        // Add a draggable marker to the map
+        const marker = L.marker([savedLat, savedLng], { draggable: true }).addTo(map);
 
+        // Update latitude and longitude fields when the marker is dragged
         marker.on('moveend', (event) => {
             const { lat, lng } = event.target.getLatLng();
-            document.getElementById('latitude').value = lat.toFixed(6);
+            document.getElementById('latitude').value = lat.toFixed(6); // Format to 6 decimal places
             document.getElementById('longitude').value = lng.toFixed(6);
         });
-    </script>
+
+        // Add search control to the map
+        const searchControl = new L.Control.Search({
+            url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}', // Search endpoint
+            jsonpParam: 'json_callback',
+            propertyName: 'display_name',
+            propertyLoc: ['lat', 'lon'],
+            marker: false,
+            moveToLocation: function (latlng) {
+                map.setView(latlng, 14); // Zoom to the selected location
+                marker.setLatLng(latlng); // Move marker to the selected location
+                document.getElementById('latitude').value = latlng.lat.toFixed(6);
+                document.getElementById('longitude').value = latlng.lng.toFixed(6);
+            },
+        });
+
+        map.addControl(searchControl);
+    });
+</script>
 </body>
 </html>
