@@ -119,6 +119,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['latitude']) && isset(
             justify-content:center;
             align-item:center;
         }
+        #btns{
+            padding:1%;
+            border-radius:5px;
+            margin:5px;
+            background-color:rgba(255, 11, 11, 0.89);
+            font-weight: bold;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            display: inline-block;
+        }
+        #bts1{
+            padding:1%;
+            border-radius:5px;
+            margin:5px;
+            background-color:rgb(15, 255, 11);
+            font-weight: bold;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .delete-button:hover, #bts1:hover {
+                cursor: pointer;
+            }
+        .delete-button:hover, #bts1:hover{
+        transform: scale(1.1);
+            }
     </style>
 </head>
 <body>
@@ -142,6 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['latitude']) && isset(
         <nav>
             <a href="post-request.php">Post Request</a>
             <a href="offer-help.php">Offer Help</a>
+            <a href="ad.html">Job</a>
             <a href="profile.php">profile</a>
             <a href="logout.php">Logout</a>
         </nav>
@@ -191,26 +217,20 @@ if (isset($_SESSION['region'])) {
             if ($row['user_id'] == $_SESSION['user_id']) {
                 echo "<form action='delete_request.php' method='POST' onsubmit='return confirm(\"Are you sure you want to delete this request?\");'>
                         <input type='hidden' name='request_id' value='" . htmlspecialchars($row['id']) . "'>
-                        <button type='submit' class='delete-button'>Delete Request</button>
+                        <button type='submit' class='delete-button' id='btns'>Delete Request</button>
                       </form>
-                      <form action='task_complete.php' method='POST'>
-                        <input type='hidden' name='escrow_id' value='" . htmlspecialchars($escrow_id) . "'>
-                        <label>Confirm Completion:</label>
-                        <button type='submit' name='poster_confirmation' value='yes'>Yes</button>
-                        <button type='submit' name='poster_confirmation' value='no'>No</button>
+                    
+                        
                       </form>";
             }
 
             // Offer Help button for all requests
             echo "<form action='messages.php' method='POST'>
                     <input type='hidden' name='request_id' value='" . htmlspecialchars($row['id']) . "'>
-                    <button type='submit'>Offer Help</button>
+                    <button type='submit' id='bts1'>Offer Help</button>
                   </form>
-                  <form action='task_accept.php' method='POST'>
-                    <input type='hidden' name='escrow_id' value='" . htmlspecialchars($escrow_id) . "'>
-                    <input type='hidden' name='provider_id' value='" . htmlspecialchars($provider_id) . "'>
-                    <button type='submit'>Accept Task</button>
-                  </form>
+                 
+                 
                   </div>";
         }
     } else {

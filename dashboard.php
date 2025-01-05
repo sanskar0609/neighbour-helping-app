@@ -232,7 +232,7 @@ if ($result->num_rows > 0) {
                     
                 
                     <h1>{$row['title']}</h1>
-                    <p>{$row['description']}</p>
+                    <p>" . nl2br(htmlspecialchars($row['description'])) . "</p>
                     <p><strong>Category:</strong> {$row['category']}</p>
                     <p><strong>Request ID:</strong> {$row['id']}</p>
                     <p><strong>Posted by:</strong> {$row['user_name']}</p> <!-- Display the user's name -->

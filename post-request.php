@@ -232,6 +232,7 @@ a{
         <nav>
             <a href="post-request.php">Post Request</a>
             <a href="offer-help.php">Offer Help</a>
+            <a href="ad.html">Job</a>
             <a href="profile.php">profile</a>
             <a href="logout.php">Logout</a>
         </nav>

@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_id'])) {
         if ($delete_sql->execute()) {
             echo "<script>
                     alert('Request deleted successfully.');
-                    window.location.href = 'offer_help.php';
+                    window.location.href = 'offer-help.php';
                   </script>";
         } else {
             echo "<p class='error'>Error deleting request: " . $conn->error . "</p>";
