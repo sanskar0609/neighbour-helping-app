@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+  <parameter name="browser" value="chrome"></parameter>
+    <test verbose="2" preserve-order="true" name="D:/springboot/MyUnityHubTest/testng.xml" parallel="tests" thread-count="5">
+        <classes>
+            <class name="TestCases.LP_04_Dashboard"></class>
+<!--            <class name="TestCases.TC_Registration_page"></class>-->
+            <class name="TestCases.TC_login_page"></class>
+            <class name="TestCases.TC_Home_Page"></class>
+            <class name="TestCases.PR_Post_Request_page"></class>
+            <class name="TestCases.TC_Job_Page"></class>
+            <class name="TestCases.P_Profile_page"></class>
+        </classes>
+    </test>
+</suite>
